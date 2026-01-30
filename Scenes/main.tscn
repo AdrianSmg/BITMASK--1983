@@ -6,10 +6,11 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jjvhh"]
 shader = ExtResource("3_8gbba")
-shader_parameter/crt_brightness = 0.98000004655
-shader_parameter/crt_ghost = 0.3650000173375
-shader_parameter/crt_grid = 0.64800003078
-shader_parameter/crt_white_noise = 0.0
+shader_parameter/crt_brightness = 0.5850000277875
+shader_parameter/crt_ghost = 0.0
+shader_parameter/crt_grid = 0.4810000228475
+shader_parameter/crt_white_noise = 0.626000029735
+shader_parameter/crt_curve = 0.0290000013775
 
 [node name="Scene" type="Node2D" unique_id=1795010771]
 script = ExtResource("1_jjgbg")
@@ -18,15 +19,23 @@ script = ExtResource("1_jjgbg")
 scale = Vector2(0.74098873, 0.95509547)
 zoom = Vector2(0.747, 0.73)
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1149844857]
-texture = ExtResource("2_bo1nx")
+[node name="ScreenContainer" type="Node" parent="." unique_id=727222759]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1612811355]
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=660234157]
+[node name="ColorRect" type="ColorRect" parent="ScreenContainer" unique_id=660234157]
 material = SubResource("ShaderMaterial_jjvhh")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -503.0
+offset_top = -376.0
+offset_right = -438.0
+offset_bottom = -435.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="ScreenContainer" unique_id=443591837]
+size = Vector2i(720, 540)
+render_target_update_mode = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1149844857]
+texture = ExtResource("2_bo1nx")
