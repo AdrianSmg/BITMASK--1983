@@ -1,8 +1,11 @@
 extends Control
 
+signal submitted
 @onready var input: LineEdit = $Input
+
 var text_scene = preload("res://Scenes/text.tscn")
 var font = preload("res://Fonts/osc_mono.ttf")
+
 func _ready():
 	input.grab_focus()
 	
@@ -20,13 +23,7 @@ func show_dialogue(pos, text, _font):
 
 
 func _on_input_text_submitted(text: String) -> void:
-	if text.is_empty():
-		return
+	submitted.emit(text)
 	
-	if(text == "hola"):
-		show_dialogue(Vector2(0, -50), "Correct\nCorrect", font)
-	else:
-		show_dialogue(Vector2(0, -50), "Incorrect\nIncorrect", font)
-		
 	input.clear()
 	input.grab_focus()
