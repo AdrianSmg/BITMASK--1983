@@ -6,9 +6,10 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jjvhh"]
 shader = ExtResource("3_8gbba")
-shader_parameter/crt_brightness = 1.0
-shader_parameter/crt_ghost = 3.0
-shader_parameter/crt_grid = 0.4
+shader_parameter/crt_brightness = 0.98000004655
+shader_parameter/crt_ghost = 0.3650000173375
+shader_parameter/crt_grid = 0.64800003078
+shader_parameter/crt_white_noise = 0.0
 
 [node name="Scene" type="Node2D" unique_id=1795010771]
 script = ExtResource("1_jjgbg")
