@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://cb7nlwl0lhpmo"]
+
+[ext_resource type="Script" uid="uid://dpppitas38uu8" path="res://Scripts/input.gd" id="1_nnn5i"]
+
+[node name="Control" type="Control" unique_id=1570099229]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nnn5i")
+
+[node name="Input" type="LineEdit" parent="." unique_id=1344256845]
+layout_mode = 0
+offset_right = 68.5
+offset_bottom = 31.0
+emoji_menu_enabled = false
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+
+[connection signal="text_submitted" from="Input" to="." method="_on_input_text_submitted"]
