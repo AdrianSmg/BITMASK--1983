@@ -1,0 +1,32 @@
+[ ZASLON-OS v4.1 (1983) ]
+> MEMORY CHECK... 64KB OK.
+> LOYALTY CHECK... 100% OK.
+> HEATING MODULE... [ FAILURE ] (Wear a coat).
+> CONNECTING TO CENTRAL COMMAND... 
+
+...
+...
+[ CONNECTION ESTABLISHED ]
+
+
+Welcome to Bunker ZASLON-4, Comrade Operator #744.
+
+I see you found the chair. Good. 
+It is still warm from Operator #733. 
+He was... "reassigned" to count snowflakes in Siberia this morning. 
+Try to last longer than he did. At least until lunch.
+
+Your mission is simple:
+The Americans are flooding our frequencies with noise, propaganda, and jazz music.
+Your terminal is the only filter between their lies and the Motherland.
+
+They think they are safe.
+But they do not know about the BITMASK protocol.
+
+You are not here to listen, Comrade. 
+You are here to UNMASK the enemy. 
+
+We do not pay you to think. We pay you to make the MASK absolute.
+Actually, we do not pay you at all. But the beet soup is free.
+
+Are you ready to serve? [yes/no]
