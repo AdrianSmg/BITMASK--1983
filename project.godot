@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="BITMASK: 1983"
+run/main_scene="uid://ds1fx4pxck5ev"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 

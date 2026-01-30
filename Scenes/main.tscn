@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://ds1fx4pxck5ev"]
+
+[ext_resource type="Script" uid="uid://c1lisfjvi8b86" path="res://Scripts/main.gd" id="1_jjgbg"]
+
+[node name="Scene" type="Node2D" unique_id=1795010771]
+script = ExtResource("1_jjgbg")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=979497502]
+scale = Vector2(0.74098873, 0.95509547)
