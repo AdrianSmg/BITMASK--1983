@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://6nl2rn4lbv72" path="res://Resources/frame.png" id="2_bo1nx"]
 [ext_resource type="Shader" uid="uid://bv2ev8m3yn4oi" path="res://Shaders/crt.gdshader" id="3_8gbba"]
 [ext_resource type="Script" path="res://Scenes/Led.gd" id="4_21xkr"]
+[ext_resource type="Script" uid="uid://dk02lkfs1udt8" path="res://Scripts/input_mgr.gd" id="5_kry3j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jjvhh"]
 shader = ExtResource("3_8gbba")
@@ -61,3 +62,8 @@ position = Vector2(-4, 9)
 texture = ExtResource("2_bo1nx")
 
 [node name="post-it" type="Sprite2D" parent="." unique_id=615084348]
+
+[node name="inputMgr" type="Node" parent="." unique_id=1518001330]
+script = ExtResource("5_kry3j")
+
+[connection signal="input_sent" from="inputMgr" to="." method="_on_input_mgr_input_sent"]

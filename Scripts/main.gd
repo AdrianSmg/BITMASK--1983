@@ -10,6 +10,17 @@ var arrIndex = 0
 
 var game_started = false
 
+var arrayCorrect = []
+var onPuzzle = false
+
+# Puzzle global vars:
+var puzzle_index := 0
+var puzzle_active := false
+var puzzle_timer := 0.0
+var puzzle_time_limit := 0.0
+var puzzle_bubble = null
+
+
 func _ready() -> void:
 	var pos = Vector2(-480, -360)
 
@@ -33,15 +44,20 @@ $$$$$$$  |$$$$$$\    $$ |   $$ | \_/ $$ |$$ |  $$ |\$$$$$$  |$$ | \$$\
     \$$\          $$ | $$\   $$ |$$ /  $$ |$$\   $$ |       $$  /         
      \$$\       $$$$$$\\$$$$$$  |\$$$$$$  |\$$$$$$  |      $$  /          
       \__|      \______|\______/  \______/  \______/       \__/                                                                              
-	""", font, 0.0000005)
+	""", font, 200)
 	
-	show_dialogue_speed(Vector2(-200, 75), "Type in password to start:", font, 0.03)
+	show_dialogue_speed(Vector2(-200, 75), "Type in password to start:", font, 150)
 
 	
 func _process(delta : float) -> void:
 	if (inputBar.psw() and not game_started):
 		game_started = true
 		start_game()
+	if puzzle_active:
+		puzzle_timer += delta
+		if puzzle_timer > puzzle_time_limit:
+			defeat_screen()
+
 
 func show_dialogue(pos, text, _font, _color, time):
 	var bubble = text_scene.instantiate()
@@ -67,11 +83,23 @@ func show_dialogue_speed(pos, text, _font, speed):
 	add_child(bubble)
 
 	bubble.position = pos
-	bubble.typing_speed = speed
+	bubble.chars_per_second = speed
 	bubble.set_text(text)
 	bubble.set_text_color(Color.GREEN_YELLOW)
 	bubble.set_font(_font)
 	bubble.start_typing()
+
+func show_dialogue_hold(pos, text, _font, _color):
+	var bubble = text_scene.instantiate()
+	add_child(bubble)
+
+	bubble.position = pos
+	bubble.set_text(text)
+	bubble.set_text_color(_color)
+	bubble.set_font(_font)
+	bubble.start_typing()
+
+	return bubble
 
 func start_game():
 	
@@ -93,21 +121,44 @@ func start_game():
 ...              
 
 [ CONNECTION ESTABLISHED ]
-""", font, Color.GREEN_YELLOW, 13)	
+""", font, Color.GREEN_YELLOW, 9)	
 
-	await show_dialogue(Vector2(-470, -300), r"""Welcome to Bunker ZASLON-4, Comrade Operator #744.
+	await show_dialogue(Vector2(-470, -300), r"""[GLadUS] 
+	Welcome to Bunker ZASLON-4, Comrade Operator #744.
 
 I see you found the chair. Good. 
 It is still warm from Operator #733. 
 He was... "reassigned" to count snowflakes in Siberia this morning. 
-Try to last longer than he did. At least until lunch.""", font, Color.RED, 20)
+Try to last longer than he did. At least until lunch.
+  
+Your mission is simple:
+The Americans are flooding our frequencies with noise, propaganda, 
+and jazz music. Your terminal is the only filter between their lies 
+and the Motherland.
+""", font, Color.RED, 10)
 
+	var d = show_dialogue_hold(Vector2(-470, -300), r"""[GLadUS]
+	They think they are safe.
+But they do not know about the BITMASK protocol.
+
+You are not here to listen, Comrade. 
+You are here to UNMASK the enemy. 
+
+We do not pay you to think. We pay you to make the MASK absolute.
+Actually, we do not pay you at all. But the beet soup is free.
+
+Are you ready to serve? [Y/N]
+""", font, Color.RED)
+
+	await wait_for_input()
+	d.kill_instance()
 
 	puzzle_day_1()
 	
 	# dialogue day 2
 	
 	puzzle_day_2()
+	
 	
 	# dialogue day 2
 	
@@ -123,7 +174,19 @@ Try to last longer than he did. At least until lunch.""", font, Color.RED, 20)
 	return
 
 func puzzle_day_1():
-	pass
+	arrayCorrect = [0,0,1,1,0,0,1,0,0,0]
+	
+	puzzle([ "00001101",
+			"00110101",
+			"11110001",
+			"11111111", 
+			"01010101",
+			"10110000",
+			"11110000", 
+			"11110100",
+			"00000000",
+			"11101111",
+			], 10)
 	
 func puzzle_day_2():
 	pass
@@ -134,6 +197,70 @@ func puzzle_day_3():
 func puzzle_day_4():
 	pass
 	
+
+func puzzle(arrayNumbers, timePerNum):
+	puzzle_numbers = arrayNumbers
+	puzzle_index = 0
+	puzzle_timer = 0.0
+	puzzle_time_limit = timePerNum
+	puzzle_active = true
+	onPuzzle = true
+
+	_show_current_number()
+
+var puzzle_numbers = []
+
+func _show_current_number():
+	if puzzle_index >= puzzle_numbers.size():
+		puzzle_active = false
+		onPuzzle = false
+		return
+
+	# Kill previous bubble if it still exists
+	if is_instance_valid(puzzle_bubble):
+		puzzle_bubble.kill_instance()
+
+	var puzzle_font = preload("res://Fonts/puzzle.ttf")
+	puzzle_bubble = text_scene.instantiate()
+
+	add_child(puzzle_bubble)
+	puzzle_bubble.position = Vector2(-50, -50)
+	puzzle_bubble.set_text(str(puzzle_numbers[puzzle_index]))
+	puzzle_bubble.set_text_color(Color.GREEN_YELLOW)
+	puzzle_bubble.set_font(puzzle_font)
+	puzzle_bubble.start_typing()
+
+	puzzle_timer = 0.0
+
+
+
+func defeat_screen():
+	pass
+
 func end_screen():
 	pass
 	
+func _on_input_mgr_input_sent(key: Variant) -> void:
+	if not puzzle_active:
+		return
+	
+	print(key)
+	
+	if key == arrayCorrect[puzzle_index]:
+		puzzle_index += 1
+		puzzle_timer = 0.0
+		_show_current_number()
+	else:
+		fail_puzzle()
+
+func fail_puzzle():
+	puzzle_active = false
+	onPuzzle = false
+	defeat_screen()
+	
+func wait_for_input():
+	while true:
+		await get_tree().process_frame
+		if Input.is_action_just_pressed("yes"):
+			await get_tree().process_frame 
+			return

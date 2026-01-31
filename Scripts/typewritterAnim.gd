@@ -1,6 +1,6 @@
 extends Control
 
-@export var typing_speed: float = 0.03
+@export var chars_per_second = 50.0
 
 @onready var label: Label = $Label
 
@@ -32,11 +32,12 @@ func _process(delta):
 	if not _typing:
 		return
 
-	_timer += delta
+	_timer += delta * chars_per_second
+	var chars_to_add := int(_timer)
+	_timer -= chars_to_add
 
-	if _timer >= typing_speed:
-		_timer = 0.0
-		label.visible_characters += 1
+	label.visible_characters += chars_to_add
 
-		if label.visible_characters >= _full_text.length():
-			_typing = false
+	if label.visible_characters >= _full_text.length():
+		label.visible_characters = _full_text.length()
+		_typing = false
