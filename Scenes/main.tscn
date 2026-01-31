@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" uid="uid://c1lisfjvi8b86" path="res://Scripts/main.gd" id="1_jjgbg"]
 [ext_resource type="Texture2D" uid="uid://6nl2rn4lbv72" path="res://Resources/frame.png" id="2_bo1nx"]
+[ext_resource type="Script" uid="uid://ccbbnvn0qka6" path="res://Scenes/Terminal_Controller.gd" id="2_jjvhh"]
 [ext_resource type="Shader" uid="uid://bv2ev8m3yn4oi" path="res://Shaders/crt.gdshader" id="3_8gbba"]
+[ext_resource type="Script" uid="uid://dm8fuodcuekdg" path="res://Scripts/typewritterAnim.gd" id="4_kry3j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jjvhh"]
 shader = ExtResource("3_8gbba")
@@ -20,6 +22,7 @@ scale = Vector2(0.74098873, 0.95509547)
 zoom = Vector2(0.747, 0.73)
 
 [node name="ScreenContainer" type="Node" parent="." unique_id=727222759]
+script = ExtResource("2_jjvhh")
 
 [node name="ColorRect" type="ColorRect" parent="ScreenContainer" unique_id=660234157]
 material = SubResource("ShaderMaterial_jjvhh")
@@ -37,5 +40,48 @@ grow_vertical = 2
 size = Vector2i(720, 540)
 render_target_update_mode = 4
 
+[node name="UI" type="Control" parent="ScreenContainer" unique_id=133460553]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="OutputScroll" type="ScrollContainer" parent="ScreenContainer/UI" unique_id=1382614537]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 60.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Output" type="RichTextLabel" parent="ScreenContainer/UI/OutputScroll" unique_id=1264083872]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 250)
+layout_mode = 2
+fit_content = true
+
+[node name="InputLine" type="LineEdit" parent="ScreenContainer/UI" unique_id=1615497438]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 68.5
+offset_bottom = 31.0
+context_menu_enabled = false
+select_all_on_focus = true
+
+[node name="Typewriter" type="Control" parent="ScreenContainer/UI" unique_id=1132336198]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_kry3j")
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1149844857]
 texture = ExtResource("2_bo1nx")
+
+[connection signal="text_submitted" from="ScreenContainer/UI/InputLine" to="ScreenContainer" method="_on_input_line_text_submitted"]
