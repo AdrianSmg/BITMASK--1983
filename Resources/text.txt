@@ -29,4 +29,225 @@ You are here to UNMASK the enemy.
 We do not pay you to think. We pay you to make the MASK absolute.
 Actually, we do not pay you at all. But the beet soup is free.
 
-Are you ready to serve? [yes/no]
+Are you ready to serve? [Y/N]
+
+
+==========================================
+DAY: 01   |   OCTOBER 24, 1983
+==========================================
+
+The radar is picking up a storm on the border. 
+But intelligence says the Americans are hiding STRATEGIC BOMBERS inside the storm clouds.
+
+We need to filter the rain from the rockets.
+
+> YOUR WEAPON:   The [ AND ] Mask.
+> YOUR CONFIG:   11110000
+> THE ENEMY:     Any signal starting with [ 1111 ].
+
+THE LOGIC IS SIMPLE:
+If (SIGNAL ** AND ** MASK) between your config and the rain config gives a result starting with 1111...
+...it is a Bomber. SHOOT IT DOWN.
+
+If the result is anything else... let it pass. 
+Do not shoot the birds. Ammo is expensive.
+
+BEGIN WATCH.
+
+00001101
+00110101
+11110001 TARGET
+11111111 TARGET
+01010101
+10110000
+11110000 TARGET
+11110100
+00000000
+11101111
+
+:: DAY 01 REPORT ::
+STATUS: SUCCESSFUL.
+
+Not bad, Operator. The sky is clear of bombers. 
+Intelligence reports that the Americans are confused. 
+They think our radar is better than it actually is. 
+Good. Let them be afraid.
+
+Go to your bunk. Sleep fast. 
+Tomorrow we stop defending... and start infiltrating.
+
+> SYSTEM SHUTDOWN...
+
+==========================================
+DAY: 02   |   OCTOBER 25, 1983
+==========================================
+
+The border is locked down. 
+We have undercover agents trying to return home, but the automated turrets are set to destroy anything without "General Clearance".
+
+Our agents are disguised as static noise, carrying the ID suffix [ 0011 ].
+We must give them a fake clearance badge so they can pass safely.
+
+> YOUR WEAPON:   The [ OR ] Mask.
+> YOUR CONFIG:   11110000
+> THE ALLY:      Any signal ending with [ 0011 ].
+
+THE LOGIC IS SIMPLE:
+The [ OR ] Mask forces bits to be 1. It does not erase, it overwrites.
+We will use it to INJECT the "General Clearance" header [ 1111 ] onto our spies.
+
+If (SIGNAL ** OR ** MASK) creates a valid clearance...
+...it is a Spy. GRANT ACCESS.
+
+If the signal does not end in [ 0011 ], do not mask it. 
+It is just garbage. Let it burn.
+
+BEGIN INFILTRATION.
+
+00000101
+00000011 TARGET
+00100000
+01010011 TARGET
+11110000
+00000011 TARGET
+00001111
+10000011 TARGET
+01100110
+00110011 TARGET
+
+:: DAY 02 REPORT ::
+STATUS: SUCCESSFUL.
+
+The agents have crossed the line.
+They are wearing the masks you gave them.
+Rest now, Operator.
+
+==========================================
+DAY: 03   |   OCTOBER 26, 1983
+==========================================
+
+The enemy has realized we are filtering their planes and masking our spies.
+So they have changed tactics. They are now using OUR codes.
+
+They are mimicking our "Friendly ID" signature to bypass the defenses. 
+Visually, they look like us. But digitally, there are flaws in their disguise.
+
+We must compare every signal against the Official Truth.
+
+> YOUR WEAPON:   The [ XOR ] Mask.
+> YOUR CONFIG:   10101010  (The Official Friendly ID)
+> THE ENEMY:     Any signal that is NOT a perfect match.
+
+THE LOGIC IS SIMPLE:
+The [ XOR ] Mask is the Difference Detector.
+It will show a [ 1 ] only where the signal lies (where it differs from the Config).
+
+If (SIGNAL ** XOR ** MASK) results in absolute zero [ 00000000 ]...
+...it is a Comrade. LET IT PASS.
+
+If the result shows even a single [ 1 ]...
+...it is an Impostor wearing our face. SHOOT IT DOWN.
+
+BEGIN VERIFICATION.
+
+10101010  
+10101011  TARGET
+11101010  TARGET
+10101010  
+00101010  TARGET
+10101010  
+11111111  TARGET
+10101000  TARGET
+00000000  TARGET
+10101010
+
+:: DAY 03 REPORT ::
+STATUS: SUCCESSFUL.
+
+Paranoia is a useful tool, Operator.
+You destroyed 6 aircraft that looked exactly like ours. 
+If you had hesitated for a microsecond, ZASLON-4 would be a crater.
+Check your equipment. Tomorrow, the signal changes frequency.
+
+> SYSTEM SHUTDOWN...
+
+==========================================
+DAY: 04   |   OCTOBER 27, 1983
+STATUS:   CRITICAL FAILURE
+==========================================
+
+:: SYSTEM ALERT ::
+The firewall is gone. The ZASLON-4 barrier has collapsed.
+It is not the Americans. It never was.
+The signal is coming from BENEATH the bunker.
+
+The screen is bleeding code. The logic is inverted.
+Truth is Lie. Lie is Truth.
+We must purge the memory buffer before IT wakes up.
+
+> YOUR WEAPON:   The BITMASK Protocol.
+> YOUR CONFIG:   11111111 (The Inverter).
+> THE ENEMY:     EVERYTHING.
+
+THE LOGIC IS ABSOLUTE:
+We must kill the signal by inverting its polarity.
+Use [ XOR ] with [ 11111111 ] to turn the signal against itself.
+
+If (SIGNAL ** XOR ** 11111111) creates a result...
+...it is purged.
+
+DO NOT HESITATE.
+DO NOT READ THE PATTERNS.
+PURGE IT ALL.
+
+BEGIN FINAL SEQUENCE.
+
+11111111 TARGET
+00000000 TARGET
+10101010 TARGET
+01010101 TARGET
+11001100 TARGET
+00110011 TARGET
+11110000 TARGET
+00001111 TARGET
+01100110 TARGET
+
+:: SYSTEM REPORT ::
+STATUS: ...SILENCE.
+
+The buffer is empty. The signal is dead.
+But the bunker is dark.
+And I cannot hear the ventilation anymore.
+
+Operator?
+Are you still there?
+
+Did we win?
+Or did we just turn off the lights?
+
+...
+...
+
+[ CONNECTION LOST ]
+[ ZASLON-OS SHUTTING DOWN ]
+
+THANKS FOR PLAYING.
+BITMASK: 1983
+
+
+
+
+
+:: CRITICAL FAILURE ::
+STATUS: COMPROMISED.
+
+You failed to maintain the Mask, Operator.
+The signal has breached the firewall.
+
+Your file has been marked: [ INCOMPETENT ].
+Operator #735 has been summoned to replace you.
+
+Goodbye, Comrade.
+
+> TERMINATING SIGNAL...
+> ...

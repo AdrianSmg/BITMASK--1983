@@ -64,6 +64,9 @@ func show_dialogue_speed(pos, text, _font, speed):
 	bubble.start_typing()
 
 func start_game():
+	
+	show_dialogue(Vector2(-200, 75), "Type in password to start:", font)
+	
 	# dialogue day 1
 	
 	puzzle_day_1()
