@@ -124,7 +124,7 @@ func start_game():
 [ CONNECTION ESTABLISHED ]
 """, font, Color.GREEN_YELLOW, 9)	
 
-	await show_dialogue(Vector2(-470, -300), r"""[GLadUS] 
+	var d = show_dialogue_hold(Vector2(-470, -300), r"""[GLadUS] 
 	Welcome to Bunker ZASLON-4, Comrade Operator #744.
 
 I see you found the chair. Good. 
@@ -136,9 +136,12 @@ Your mission is simple:
 The Americans are flooding our frequencies with noise, propaganda, 
 and jazz music. Your terminal is the only filter between their lies 
 and the Motherland.
-""", font, Color.RED, 10)
+""", font, Color.RED)
 
-	var d = show_dialogue_hold(Vector2(-470, -300), r"""[GLadUS]
+	await wait_for_input()
+	d.kill_instance()
+
+	d = show_dialogue_hold(Vector2(-470, -300), r"""[GLadUS]
 	They think they are safe.
 But they do not know about the BITMASK protocol.
 
@@ -153,23 +156,221 @@ Are you ready to serve? [Y/N]
 
 	await wait_for_input()
 	d.kill_instance()
+	
+	d = show_dialogue_hold(Vector2(-470, -300), r"""==========================================
+DAY: 01   |   OCTOBER 24, 1983
+==========================================
+
+The radar is picking up a storm on the border. 
+But intelligence says the Americans are hiding STRATEGIC BOMBERS 
+inside the storm clouds.
+
+We need to filter the rain from the rockets.
+
+> YOUR WEAPON:   The [ AND ] Mask.
+> YOUR CONFIG:   11110000
+> THE ENEMY:     Any signal starting with [ 1111 ].
+
+Press INTRO to continue
+""", font, Color.GREEN)
+
+	await wait_for_input()
+	d.kill_instance()
+	
+	d = show_dialogue_hold(Vector2(-470, -300), r"""THE LOGIC IS SIMPLE:
+If (SIGNAL ** AND ** MASK) between your config and the rain config
+gives a result starting with 1111...
+...it is a Bomber. SHOOT IT DOWN.
+
+If the result is anything else... let it pass. 
+Do not shoot the birds. Ammo is expensive.
+
+Press INTRO to START
+""", font, Color.GREEN)
+
+	await wait_for_input()
+	d.kill_instance()
 
 	puzzle_day_1()
 	
-	# dialogue day 2
+	await show_dialogue(Vector2(-470, -300), r""":: DAY 01 REPORT ::
+STATUS: SUCCESSFUL.
+
+Not bad, Operator. The sky is clear of bombers. 
+Intelligence reports that the Americans are confused. 
+They think our radar is better than it actually is. 
+Good. Let them be afraid.
+
+Go to your bunk. Sleep fast. 
+Tomorrow we stop defending... and start infiltrating.
+
+> SYSTEM SHUTDOWN...
+""", font, Color.GREEN, 9)	
+	
+	d = show_dialogue_hold(Vector2(-470, -300), r"""==========================================
+DAY: 02   |   OCTOBER 25, 1983
+==========================================
+
+The border is locked down. 
+We have undercover agents trying to return home, but the automated 
+turrets are set to destroy anything without "General Clearance".
+
+Our agents are disguised as static noise, carrying the ID suffix [0011].
+We must give them a fake clearance badge so they can pass safely.
+
+> YOUR WEAPON:   The [ OR ] Mask.
+> YOUR CONFIG:   11110000
+> THE ALLY:    Any signal ending with [ 0011 ].
+
+Press INTRO to continue
+""", font, Color.GREEN)
+
+	await wait_for_input()
+	d.kill_instance()
+	
+	d = show_dialogue_hold(Vector2(-470, -300), r"""THE LOGIC IS SIMPLE:
+The [ OR ] Mask forces bits to be 1. It does not erase, it overwrites.
+We will use it to INJECT the "General Clearance" header [ 1111 ] onto our spies.
+
+If (SIGNAL ** OR ** MASK) creates a valid clearance...
+...it is a Spy. GRANT ACCESS.
+
+If the signal does not end in [ 0011 ], do not mask it. 
+It is just garbage. Let it burn.
+
+Press INTRO to BEGIN INFILTRATION.
+""", font, Color.GREEN)
+
+	await wait_for_input()
+	d.kill_instance()
 	
 	puzzle_day_2()
 	
+	await show_dialogue(Vector2(-470, -300), r""":: DAY 02 REPORT ::
+STATUS: SUCCESSFUL.
+
+The agents have crossed the line.
+They are wearing the masks you gave them.
+Rest now, Operator.
+
+> SYSTEM SHUTDOWN...
+""", font, Color.GREEN, 5)	
 	
-	# dialogue day 2
+	d = show_dialogue_hold(Vector2(-470, -300), r"""==========================================
+DAY: 03   |   OCTOBER 26, 1983
+==========================================
+
+The enemy has realized we are filtering their planes and masking our spies.
+So they have changed tactics. They are now using OUR codes.
+
+They are mimicking our "Friendly ID" signature to bypass the defenses. 
+Visually, they look like us. But digitally, there are flaws in their disguise.
+
+We must compare every signal against the Official Truth.
+
+> YOUR WEAPON:   The [ XOR ] Mask.
+> YOUR CONFIG:   10101010  (The Official Friendly ID)
+> THE ENEMY:     Any signal that is NOT a perfect match.
+
+Press INTRO to continue
+""", font, Color.GREEN)
+
+	await wait_for_input()
+	d.kill_instance()
+	
+	d = show_dialogue_hold(Vector2(-470, -300), r"""The [ XOR ] Mask is the Difference Detector.
+It will show a [ 1 ] only where the signal lies (where it differs from the Config).
+
+If (SIGNAL ** XOR ** MASK) results in absolute zero [ 00000000 ]...
+...it is a Comrade. LET IT PASS.
+
+If the result shows even a single [ 1 ]...
+...it is an Impostor wearing our face. SHOOT IT DOWN.
+
+Press INTRO to BEGIN VERIFICATION
+""", font, Color.GREEN)
+
+	await wait_for_input()
+	d.kill_instance()
 	
 	puzzle_day_3()
 	
-	# dialogue day 2
+	await show_dialogue(Vector2(-470, -300), r""":: DAY 03 REPORT ::
+STATUS: SUCCESSFUL.
+
+Paranoia is a useful tool, Operator.
+You destroyed 6 aircraft that looked exactly like ours. 
+If you had hesitated for a microsecond, ZASLON-4 would be a crater.
+Check your equipment. Tomorrow, the signal changes frequency.
+
+> SYSTEM SHUTDOWN...
+""", font, Color.GREEN, 6)	
+	
+	d = show_dialogue_hold(Vector2(-470, -300), r"""==========================================
+DAY: 04   |   OCTOBER 27, 1983
+STATUS:   CRITICAL FAILURE
+==========================================
+
+:: SYSTEM ALERT ::
+The firewall is gone. The ZASLON-4 barrier has collapsed.
+It is not the Americans. It never was.
+The signal is coming from BENEATH the bunker.
+
+The screen is bleeding code. The logic is inverted.
+Truth is Lie. Lie is Truth.
+We must purge the memory buffer before IT wakes up.
+
+> YOUR WEAPON:   The BITMASK Protocol.
+> YOUR CONFIG:   11111111 (The Inverter).
+> THE ENEMY:     EVERYTHING.
+
+Press INTRO to continue
+""", font, Color.ORANGE_RED)
+
+	await wait_for_input()
+	d.kill_instance()
+	
+	d = show_dialogue_hold(Vector2(-470, -300), r"""THE LOGIC IS ABSOLUTE:
+We must kill the signal by inverting its polarity.
+Use [ XOR ] with [ 11111111 ] to turn the signal against itself.
+
+If (SIGNAL ** XOR ** 11111111) creates a result...
+...it is purged.
+
+DO NOT HESITATE.
+DO NOT READ THE PATTERNS.
+PURGE IT ALL.
+
+Press INTRO to BEGIN FINAL SEQUENCE
+""", font, Color.ORANGE_RED)
+
+	await wait_for_input()
+	d.kill_instance()
 	
 	puzzle_day_4()
 	
-	# ending dialogue
+	await show_dialogue(Vector2(-470, -300), r""":: SYSTEM REPORT ::
+STATUS: ...SILENCE.
+
+The buffer is empty. The signal is dead.
+But the bunker is dark.
+And I cannot hear the ventilation anymore.
+
+Operator?
+Are you still there?
+
+Did we win?
+Or did we just turn off the lights?
+
+...
+...
+
+[ CONNECTION LOST ]
+[ ZASLON-OS SHUTTING DOWN ]
+
+THANKS FOR PLAYING.
+BITMASK: 1983
+""", font, Color.ORANGE_RED, 15)	
 	
 	end_screen()
 	return
