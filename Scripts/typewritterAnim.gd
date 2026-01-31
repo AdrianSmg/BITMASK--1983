@@ -25,7 +25,7 @@ func start_typing():
 	label.visible_characters = 0
 
 func kill_instance():
-	self.free()
+	self.queue_free()
 
 
 func _process(delta):

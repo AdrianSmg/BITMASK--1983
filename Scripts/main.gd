@@ -4,11 +4,14 @@ var text_scene = preload("res://Scenes/text.tscn")
 var font = preload("res://Fonts/osc_mono.ttf")
 var input = preload("res://Scenes/input.tscn")
 
+var inputBar = input.instantiate()
+var objArray = [null, null]
+var arrIndex = 0
+
 func _ready() -> void:
 	var pos = Vector2(-480, -360)
 	show_dialogue(pos, "Test text: bitmask 1983 the best!!!", font)
 
-	var inputBar = input.instantiate()
 	add_child(inputBar)
 	inputBar.position = Vector2(-70, 120)
 
@@ -31,13 +34,13 @@ $$$$$$$  |$$$$$$\    $$ |   $$ | \_/ $$ |$$ |  $$ |\$$$$$$  |$$ | \$$\
       \__|      \______|\______/  \______/  \______/       \__/                                                                              
 	""", font, 0.0000005)
 	
-	show_dialogue(Vector2(-200, 75), "Type in password to start:", font)
+	show_dialogue_speed(Vector2(-200, 75), "Type in password to start:", font, 0.03)
 
-func _on_correct_arg():
-	start_game()
 	
 func _process(delta: float) -> void:
-	pass
+	if(inputBar.psw() == true):
+		start_game()
+		return
 
 func show_dialogue(pos, text, _font):
 	var bubble = text_scene.instantiate()
@@ -50,10 +53,16 @@ func show_dialogue(pos, text, _font):
 	bubble.set_text_color(Color.GREEN_YELLOW)
 	bubble.set_font(_font)
 	bubble.start_typing()
+	
+	await get_tree().create_timer(6.5).timeout
+	bubble.kill_instance()
 
 func show_dialogue_speed(pos, text, _font, speed):
 	var bubble = text_scene.instantiate()
-
+	
+	objArray[arrIndex] = bubble
+	arrIndex += 1
+	
 	add_child(bubble)
 
 	bubble.position = pos
@@ -65,10 +74,15 @@ func show_dialogue_speed(pos, text, _font, speed):
 
 func start_game():
 	
-	show_dialogue(Vector2(-200, 75), "Type in password to start:", font)
-	
 	# dialogue day 1
+
+	if is_instance_valid(objArray[0]):
+		objArray[0].kill_instance()
+		
+	if is_instance_valid(objArray[1]):
+		objArray[1].kill_instance()
 	
+	show_dialogue(Vector2(0, 0), "Testtttt /1!! ;kdnljknf", font)	
 	puzzle_day_1()
 	
 	# dialogue day 2
@@ -86,6 +100,7 @@ func start_game():
 	# ending dialogue
 	
 	end_screen()
+	return
 
 func puzzle_day_1():
 	pass

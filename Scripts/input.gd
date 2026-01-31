@@ -4,6 +4,8 @@ extends Control
 var text_scene = preload("res://Scenes/text.tscn")
 var font = preload("res://Fonts/osc_mono.ttf")
 
+var correct_psw = false
+
 func _ready():
 	input.grab_focus()
 	
@@ -11,13 +13,17 @@ func _on_input_text_submitted(text: String) -> void:
 	if text.is_empty():
 		return
 	
-	if(text == "hola"):
-		show_dialogue(Vector2(0, -50), "Correct\nCorrect", font)
+	if(text == "lenin4ever"):
+		correct_psw = true
 	else:
-		show_dialogue(Vector2(0, -50), "Incorrect\nIncorrect", font)
+		show_dialogue(Vector2(-175, 100), "Incorrect", font)
+		correct_psw = false
 		
 	input.clear()
 	input.grab_focus()
+
+func psw() -> bool:
+	return correct_psw
 
 func show_dialogue(pos, text, _font):
 	var bubble = text_scene.instantiate()
