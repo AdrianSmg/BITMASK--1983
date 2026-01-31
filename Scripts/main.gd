@@ -5,7 +5,7 @@ var font = preload("res://Fonts/osc_mono.ttf")
 var input = preload("res://Scenes/input.tscn")
 
 var inputBar = input.instantiate()
-var objArray = [null, null]
+var objArray = [null, null, null, null, null]
 var arrIndex = 0
 
 var game_started = false
@@ -44,9 +44,9 @@ $$$$$$$  |$$$$$$\    $$ |   $$ | \_/ $$ |$$ |  $$ |\$$$$$$  |$$ | \$$\
     \$$\          $$ | $$\   $$ |$$ /  $$ |$$\   $$ |       $$  /         
      \$$\       $$$$$$\\$$$$$$  |\$$$$$$  |\$$$$$$  |      $$  /          
       \__|      \______|\______/  \______/  \______/       \__/                                                                              
-	""", font, 200)
+	""", font, Color.GREEN_YELLOW, 250)
 	
-	show_dialogue_speed(Vector2(-200, 75), "Type in password to start:", font, 150)
+	show_dialogue_speed(Vector2(-200, 75), "Type in password to start:", font, Color.GREEN_YELLOW, 200)
 
 	
 func _process(delta : float) -> void:
@@ -74,7 +74,7 @@ func show_dialogue(pos, text, _font, _color, time):
 	await get_tree().create_timer(time).timeout
 	bubble.kill_instance()
 
-func show_dialogue_speed(pos, text, _font, speed):
+func show_dialogue_speed(pos, text, _font, _color, speed):
 	var bubble = text_scene.instantiate()
 	
 	objArray[arrIndex] = bubble
@@ -85,7 +85,7 @@ func show_dialogue_speed(pos, text, _font, speed):
 	bubble.position = pos
 	bubble.chars_per_second = speed
 	bubble.set_text(text)
-	bubble.set_text_color(Color.GREEN_YELLOW)
+	bubble.set_text_color(_color)
 	bubble.set_font(_font)
 	bubble.start_typing()
 
@@ -112,6 +112,7 @@ func start_game():
 		objArray[1].kill_instance()
 	if (is_instance_valid(inputBar)) : 
 		inputBar.visible = false
+	
 	await show_dialogue(Vector2(-470, -300), r"""[ ZASLON-OS v4.1 (1983) ]
 > MEMORY CHECK... 64KB OK.
 > LOYALTY CHECK... 100% OK.
@@ -235,10 +236,31 @@ func _show_current_number():
 
 
 func defeat_screen():
-	pass
+	var title = show_dialogue_speed(Vector2(-350, -350), r"""░▒▓████████▓▒░▒▓██████▓▒░░▒▓█▓▒░▒▓█▓▒░        
+░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░        
+░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░        
+░▒▓██████▓▒░░▒▓████████▓▒░▒▓█▓▒░▒▓█▓▒░        
+░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░        
+░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░        
+░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓████████▓▒░ 
+																					""", 
+					font, Color.RED, 250)
+	
+	var subtitle = show_dialogue_hold(Vector2(-150, -100), "You have doomed us all...", font, Color.RED)
+	var exit = show_dialogue_hold(Vector2(-160,-50), "ACCEPT YOUR FATE? [Y/Y] ", font, Color.GREEN_YELLOW)
+	
+	await wait_for_input()
+	get_tree().quit()
 
 func end_screen():
 	pass
+
+func correct_screen():
+	show_dialogue(Vector2(-50, -200), r"""⣰⣾⣿⣿⣿⣷⣦⠀
+										⣾⣿⣿⣿⣿⣿⢟⣿⣧
+										⣿⣿⡻⣿⡟⣡⣿⣿⣿
+										⢻⣿⣿⣦⣾⣿⣿⣿⡟
+										⠀⠹⢿⣿⣿⣿⡿⠟⠀""", font, Color.GREEN, 2)
 	
 func _on_input_mgr_input_sent(key: Variant) -> void:
 	if not puzzle_active:
@@ -250,6 +272,7 @@ func _on_input_mgr_input_sent(key: Variant) -> void:
 		puzzle_index += 1
 		puzzle_timer = 0.0
 		_show_current_number()
+		correct_screen()
 	else:
 		fail_puzzle()
 

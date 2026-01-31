@@ -6,6 +6,20 @@
 [ext_resource type="Script" path="res://Scenes/Led.gd" id="4_21xkr"]
 [ext_resource type="Script" uid="uid://dk02lkfs1udt8" path="res://Scripts/input_mgr.gd" id="5_kry3j"]
 
+[sub_resource type="GDScript" id="GDScript_kry3j"]
+script/source = "extends Camera2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jjvhh"]
 shader = ExtResource("3_8gbba")
 shader_parameter/crt_brightness = 1.0
@@ -27,6 +41,7 @@ script = ExtResource("1_jjgbg")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=979497502]
 scale = Vector2(0.74098873, 0.95509547)
 zoom = Vector2(0.747, 0.73)
+script = SubResource("GDScript_kry3j")
 
 [node name="ScreenContainer" type="Node" parent="." unique_id=727222759]
 
