@@ -5,7 +5,7 @@ var font = preload("res://Fonts/osc_mono.ttf")
 var input = preload("res://Scenes/input.tscn")
 
 func _ready() -> void:
-	var pos = Vector2(-480, -370)
+	var pos = Vector2(-480, -360)
 	show_dialogue(pos, "Test text: bitmask 1983 the best!!!", font)
 
 	var inputBar = input.instantiate()
@@ -34,8 +34,8 @@ $$$$$$$  |$$$$$$\    $$ |   $$ | \_/ $$ |$$ |  $$ |\$$$$$$  |$$ | \$$\
 	show_dialogue(Vector2(-200, 75), "Type in password to start:", font)
 
 func _on_correct_arg():
-	show_dialogue(Vector2(0, -150), "Correct", font) #start game-
-
+	start_game()
+	
 func _process(delta: float) -> void:
 	pass
 
@@ -47,7 +47,7 @@ func show_dialogue(pos, text, _font):
 	bubble.position = pos
 
 	bubble.set_text(text)
-	bubble.set_text_color(Color.GREEN)
+	bubble.set_text_color(Color.GREEN_YELLOW)
 	bubble.set_font(_font)
 	bubble.start_typing()
 
@@ -59,6 +59,42 @@ func show_dialogue_speed(pos, text, _font, speed):
 	bubble.position = pos
 	bubble.typing_speed = speed
 	bubble.set_text(text)
-	bubble.set_text_color(Color.GREEN)
+	bubble.set_text_color(Color.GREEN_YELLOW)
 	bubble.set_font(_font)
 	bubble.start_typing()
+
+func start_game():
+	# dialogue day 1
+	
+	puzzle_day_1()
+	
+	# dialogue day 2
+	
+	puzzle_day_2()
+	
+	# dialogue day 2
+	
+	puzzle_day_3()
+	
+	# dialogue day 2
+	
+	puzzle_day_4()
+	
+	# ending dialogue
+	
+	end_screen()
+
+func puzzle_day_1():
+	pass
+	
+func puzzle_day_2():
+	pass
+	
+func puzzle_day_3():
+	pass
+	
+func puzzle_day_4():
+	pass
+	
+func end_screen():
+	pass

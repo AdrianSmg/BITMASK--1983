@@ -24,6 +24,10 @@ func start_typing():
 	_typing = true
 	label.visible_characters = 0
 
+func kill_instance():
+	self.free()
+
+
 func _process(delta):
 	if not _typing:
 		return
