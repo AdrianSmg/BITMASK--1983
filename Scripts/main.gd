@@ -10,7 +10,6 @@ var arrIndex = 0
 
 func _ready() -> void:
 	var pos = Vector2(-480, -360)
-	show_dialogue(pos, "Test text: bitmask 1983 the best!!!", font)
 
 	add_child(inputBar)
 	inputBar.position = Vector2(-70, 120)
@@ -37,12 +36,11 @@ $$$$$$$  |$$$$$$\    $$ |   $$ | \_/ $$ |$$ |  $$ |\$$$$$$  |$$ | \$$\
 	show_dialogue_speed(Vector2(-200, 75), "Type in password to start:", font, 0.03)
 
 	
-func _process(delta: float) -> void:
-	if(inputBar.psw() == true):
+func _process(delta : float) -> void:
+	if (inputBar.psw() == true):
 		start_game()
-		return
 
-func show_dialogue(pos, text, _font):
+func show_dialogue(pos, text, _font, time):
 	var bubble = text_scene.instantiate()
 
 	add_child(bubble)
@@ -54,7 +52,7 @@ func show_dialogue(pos, text, _font):
 	bubble.set_font(_font)
 	bubble.start_typing()
 	
-	await get_tree().create_timer(6.5).timeout
+	await get_tree().create_timer(time).timeout
 	bubble.kill_instance()
 
 func show_dialogue_speed(pos, text, _font, speed):
@@ -81,8 +79,25 @@ func start_game():
 		
 	if is_instance_valid(objArray[1]):
 		objArray[1].kill_instance()
-	
-	show_dialogue(Vector2(0, 0), "Testtttt /1!! ;kdnljknf", font)	
+	if (is_instance_valid(inputBar)) : 
+		inputBar.visible = false
+	show_dialogue(Vector2(-470, -300), r"""[ ZASLON-OS v4.1 (1983) ]
+> MEMORY CHECK... 64KB OK.
+> LOYALTY CHECK... 100% OK.
+> HEATING MODULE... [ FAILURE ] (Wear a coat).
+> CONNECTING TO CENTRAL COMMAND... 
+
+...
+...
+[ CONNECTION ESTABLISHED ]
+
+
+Welcome to Bunker ZASLON-4, Comrade Operator #744.
+
+I see you found the chair. Good. 
+It is still warm from Operator #733. 
+He was... "reassigned" to count snowflakes in Siberia this morning. 
+Try to last longer than he did. At least until lunch.""", font, 15)	
 	puzzle_day_1()
 	
 	# dialogue day 2
