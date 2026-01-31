@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://6nl2rn4lbv72" path="res://Resources/frame.png" id="2_bo1nx"]
 [ext_resource type="Script" uid="uid://ccbbnvn0qka6" path="res://Scenes/Terminal_Controller.gd" id="2_jjvhh"]
 [ext_resource type="Shader" uid="uid://bv2ev8m3yn4oi" path="res://Shaders/crt.gdshader" id="3_8gbba"]
+[ext_resource type="Script" uid="uid://b0nra8x17equh" path="res://Scenes/Led.gd" id="4_21xkr"]
 [ext_resource type="Script" uid="uid://dm8fuodcuekdg" path="res://Scripts/typewritterAnim.gd" id="4_kry3j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jjvhh"]
@@ -13,6 +14,13 @@ shader_parameter/crt_ghost = 0.0
 shader_parameter/crt_grid = 0.4810000228475
 shader_parameter/crt_white_noise = 0.626000029735
 shader_parameter/crt_curve = 0.0290000013775
+
+[sub_resource type="Gradient" id="Gradient_21xkr"]
+offsets = PackedFloat32Array(0, 0.5223214, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.484375, 0.484375, 0.484375, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6bp64"]
+gradient = SubResource("Gradient_21xkr")
 
 [node name="Scene" type="Node2D" unique_id=1795010771]
 script = ExtResource("1_jjgbg")
@@ -39,6 +47,16 @@ grow_vertical = 2
 [node name="SubViewport" type="SubViewport" parent="ScreenContainer" unique_id=443591837]
 size = Vector2i(720, 540)
 render_target_update_mode = 4
+
+[node name="GreenButtonGlow" type="Node2D" parent="ScreenContainer" unique_id=1694305874]
+
+[node name="PointLight2D" type="PointLight2D" parent="ScreenContainer/GreenButtonGlow" unique_id=1056978370]
+position = Vector2(523, 446)
+scale = Vector2(0.59375024, 0.53125)
+color = Color(0, 0.7696969, 0.23463127, 1)
+energy = 2.11
+texture = SubResource("GradientTexture2D_6bp64")
+script = ExtResource("4_21xkr")
 
 [node name="UI" type="Control" parent="ScreenContainer" unique_id=133460553]
 layout_mode = 3
@@ -81,7 +99,8 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("4_kry3j")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1149844857]
+[node name="Sprite2D" type="Sprite2D" parent="ScreenContainer/UI" unique_id=1149844857]
+position = Vector2(-4, 9)
 texture = ExtResource("2_bo1nx")
 
 [connection signal="text_submitted" from="ScreenContainer/UI/InputLine" to="ScreenContainer" method="_on_input_line_text_submitted"]

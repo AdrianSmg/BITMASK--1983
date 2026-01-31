@@ -25,7 +25,6 @@ func type_append(text: String) -> void:
 	_full_text = output.text + text
 	output.text = _full_text
 
-	# revela SOLO lo nuevo
 	output.visible_characters = _full_text.length() - text.length()
 
 	_timer = 0.0
