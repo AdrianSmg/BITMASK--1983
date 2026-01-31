@@ -20,6 +20,8 @@ func show_dialogue(pos, text, _font):
 	bubble.set_text_color(Color.GREEN)
 	bubble.set_font(_font)
 	bubble.start_typing()
+	
+
 
 
 func _on_input_text_submitted(text: String) -> void:

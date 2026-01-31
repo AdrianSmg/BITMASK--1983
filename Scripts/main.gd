@@ -5,12 +5,41 @@ var font = preload("res://Fonts/osc_mono.ttf")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+<<<<<<< Updated upstream
 	var pos = Vector2(0, 0)
 
 	show_dialogue(pos, "Test text: bitmask 1983 the best!!!", font)
+=======
+	var pos = Vector2(-480, -370)
+	
+	var inputBar = input.instantiate()
+	add_child(inputBar)
+	inputBar.position = Vector2(-70, 120)
+	
+	show_dialogue_speed(pos, r"""$$$$$$$\  $$$$$$\ $$$$$$$$\ $$\      $$\  $$$$$$\   $$$$$$\  $$\   $$\ 
+$$  __$$\ \_$$  _|\__$$  __|$$$\    $$$ |$$  __$$\ $$  __$$\ $$ | $$  |
+$$ |  $$ |  $$ |     $$ |   $$$$\  $$$$ |$$ /  $$ |$$ /  \__|$$ |$$  / 
+$$$$$$$\ |  $$ |     $$ |   $$\$$\$$ $$ |$$$$$$$$ |\$$$$$$\  $$$$$  /  
+$$  __$$\   $$ |     $$ |   $$ \$$$  $$ |$$  __$$ | \____$$\ $$  $$<   
+$$ |  $$ |  $$ |     $$ |   $$ |\$  /$$ |$$ |  $$ |$$\   $$ |$$ |\$$\  
+$$$$$$$  |$$$$$$\    $$ |   $$ | \_/ $$ |$$ |  $$ |\$$$$$$  |$$ | \$$\ 
+\_______/ \______|   \__|   \__|     \__|\__|  \__| \______/ \__|  \__|
+                                                           
+       $$\         $$\   $$$$$$\   $$$$$$\   $$$$$$\        $$\            
+      $$  |      $$$$ | $$  __$$\ $$  __$$\ $$ ___$$\       \$$\           
+     $$  /       \_$$ | $$ /  $$ |$$ /  $$ |\_/   $$ |       \$$\          
+    $$  /          $$ | \$$$$$$$ | $$$$$$  |  $$$$$ /         \$$\         
+    \$$<           $$ |  \____$$ |$$  __$$<   \___$$\         $$  |        
+     \$$\          $$ | $$\   $$ |$$ /  $$ |$$\   $$ |       $$  /         
+      \$$\       $$$$$$\\$$$$$$  |\$$$$$$  |\$$$$$$  |      $$  /          
+       \__|      \______|\______/  \______/  \______/       \__/        
+	""", font, 0.0000005)
+	
+	show_dialogue(Vector2(-200, 75), "Type in password to start:", font)
+>>>>>>> Stashed changes
 
 func _on_correct_arg():
-	show_dialogue(Vector2(0, -150), "Correct", font)
+	show_dialogue(Vector2(0, -150), "Correct", font) #start game-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -23,6 +52,18 @@ func show_dialogue(pos, text, _font):
 
 	bubble.position = pos
 
+	bubble.set_text(text)
+	bubble.set_text_color(Color.GREEN)
+	bubble.set_font(_font)
+	bubble.start_typing()
+	
+func show_dialogue_speed(pos, text, _font, speed):
+	var bubble = text_scene.instantiate()
+	
+	add_child(bubble)
+
+	bubble.position = pos
+	bubble.typing_speed = speed
 	bubble.set_text(text)
 	bubble.set_text_color(Color.GREEN)
 	bubble.set_font(_font)

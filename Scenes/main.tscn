@@ -1,8 +1,21 @@
 [gd_scene format=3 uid="uid://ds1fx4pxck5ev"]
 
 [ext_resource type="Script" uid="uid://c1lisfjvi8b86" path="res://Scripts/main.gd" id="1_jjgbg"]
+<<<<<<< Updated upstream
 [ext_resource type="Texture2D" path="res://Resources/frame.png" id="2_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://c2mwje3mdw8w1" path="res://Scenes/log.tscn" id="3_8gbba"]
+=======
+[ext_resource type="Texture2D" uid="uid://6nl2rn4lbv72" path="res://Resources/frame.png" id="2_bo1nx"]
+[ext_resource type="Shader" uid="uid://bv2ev8m3yn4oi" path="res://Shaders/crt.gdshader" id="3_8gbba"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jjvhh"]
+shader = ExtResource("3_8gbba")
+shader_parameter/crt_brightness = 1.0
+shader_parameter/crt_ghost = 0.0
+shader_parameter/crt_grid = 0.638000030305
+shader_parameter/crt_white_noise = 0.2970000141075
+shader_parameter/crt_curve = 0.0230000010925
+>>>>>>> Stashed changes
 
 [node name="Scene" type="Node2D" unique_id=1795010771]
 script = ExtResource("1_jjgbg")
