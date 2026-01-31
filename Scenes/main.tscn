@@ -3,14 +3,14 @@
 [ext_resource type="Script" uid="uid://c1lisfjvi8b86" path="res://Scripts/main.gd" id="1_jjgbg"]
 [ext_resource type="Texture2D" uid="uid://6nl2rn4lbv72" path="res://Resources/frame.png" id="2_bo1nx"]
 [ext_resource type="Shader" uid="uid://bv2ev8m3yn4oi" path="res://Shaders/crt.gdshader" id="3_8gbba"]
-[ext_resource type="Script" uid="uid://b0nra8x17equh" path="res://Scenes/Led.gd" id="4_21xkr"]
+[ext_resource type="Script" path="res://Scenes/Led.gd" id="4_21xkr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jjvhh"]
 shader = ExtResource("3_8gbba")
 shader_parameter/crt_brightness = 1.0
-shader_parameter/crt_ghost = 0.0
-shader_parameter/crt_grid = 0.40400001919
-shader_parameter/crt_white_noise = 0.4830000229425
+shader_parameter/crt_ghost = 0.10000000475
+shader_parameter/crt_grid = 0.75600003591
+shader_parameter/crt_white_noise = 0.3290000156275
 shader_parameter/crt_curve = 0.0290000013775
 
 [sub_resource type="Gradient" id="Gradient_21xkr"]
@@ -46,15 +46,18 @@ size = Vector2i(720, 540)
 render_target_update_mode = 4
 
 [node name="GreenButtonGlow" type="Node2D" parent="ScreenContainer" unique_id=1694305874]
+position = Vector2(477, 360)
 
 [node name="PointLight2D" type="PointLight2D" parent="ScreenContainer/GreenButtonGlow" unique_id=1056978370]
 position = Vector2(523, 446)
 scale = Vector2(0.59375024, 0.53125)
-color = Color(0, 0.7696969, 0.23463127, 1)
+color = Color(0.23529412, 0.92156863, 0.24705882, 1)
 energy = 2.11
 texture = SubResource("GradientTexture2D_6bp64")
 script = ExtResource("4_21xkr")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1149844857]
+[node name="screen" type="Sprite2D" parent="." unique_id=1149844857]
 position = Vector2(-4, 9)
 texture = ExtResource("2_bo1nx")
+
+[node name="post-it" type="Sprite2D" parent="." unique_id=615084348]

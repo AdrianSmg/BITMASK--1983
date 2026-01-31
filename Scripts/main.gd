@@ -8,6 +8,8 @@ var inputBar = input.instantiate()
 var objArray = [null, null]
 var arrIndex = 0
 
+var game_started = false
+
 func _ready() -> void:
 	var pos = Vector2(-480, -360)
 
@@ -37,10 +39,11 @@ $$$$$$$  |$$$$$$\    $$ |   $$ | \_/ $$ |$$ |  $$ |\$$$$$$  |$$ | \$$\
 
 	
 func _process(delta : float) -> void:
-	if (inputBar.psw() == true):
+	if (inputBar.psw() and not game_started):
+		game_started = true
 		start_game()
 
-func show_dialogue(pos, text, _font, time):
+func show_dialogue(pos, text, _font, _color, time):
 	var bubble = text_scene.instantiate()
 
 	add_child(bubble)
@@ -48,7 +51,7 @@ func show_dialogue(pos, text, _font, time):
 	bubble.position = pos
 
 	bubble.set_text(text)
-	bubble.set_text_color(Color.GREEN_YELLOW)
+	bubble.set_text_color(_color)
 	bubble.set_font(_font)
 	bubble.start_typing()
 	
@@ -81,23 +84,25 @@ func start_game():
 		objArray[1].kill_instance()
 	if (is_instance_valid(inputBar)) : 
 		inputBar.visible = false
-	show_dialogue(Vector2(-470, -300), r"""[ ZASLON-OS v4.1 (1983) ]
+	await show_dialogue(Vector2(-470, -300), r"""[ ZASLON-OS v4.1 (1983) ]
 > MEMORY CHECK... 64KB OK.
 > LOYALTY CHECK... 100% OK.
 > HEATING MODULE... [ FAILURE ] (Wear a coat).
 > CONNECTING TO CENTRAL COMMAND... 
+...             
+...              
 
-...
-...
 [ CONNECTION ESTABLISHED ]
+""", font, Color.GREEN_YELLOW, 13)	
 
-
-Welcome to Bunker ZASLON-4, Comrade Operator #744.
+	await show_dialogue(Vector2(-470, -300), r"""Welcome to Bunker ZASLON-4, Comrade Operator #744.
 
 I see you found the chair. Good. 
 It is still warm from Operator #733. 
 He was... "reassigned" to count snowflakes in Siberia this morning. 
-Try to last longer than he did. At least until lunch.""", font, 15)	
+Try to last longer than he did. At least until lunch.""", font, Color.RED, 20)
+
+
 	puzzle_day_1()
 	
 	# dialogue day 2
@@ -131,3 +136,4 @@ func puzzle_day_4():
 	
 func end_screen():
 	pass
+	
