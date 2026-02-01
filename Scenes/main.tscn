@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bd0nsqweh6r74" path="res://Resources/redled.png" id="5_6bp64"]
 [ext_resource type="Texture2D" uid="uid://dr3vga8m6mv7u" path="res://Resources/postit.png" id="5_21xkr"]
 [ext_resource type="Script" uid="uid://dk02lkfs1udt8" path="res://Scripts/input_mgr.gd" id="5_kry3j"]
-[ext_resource type="AudioStream" uid="uid://f3sfx52om8iy" path="res://Resources/BITMASK1983_Soundtrack.mp3" id="8_344ge"]
+[ext_resource type="AudioStream" path="res://Resources/BITMASK1983_Soundtrack.mp3" id="8_344ge"]
 
 [sub_resource type="GDScript" id="GDScript_kry3j"]
 script/source = "extends Camera2D
