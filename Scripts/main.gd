@@ -583,6 +583,6 @@ func fail_puzzle():
 func wait_for_input():
 	while true:
 		await get_tree().process_frame
-		if Input.is_action_just_pressed("yes"):
+		if Input.is_action_just_pressed("yes") or Input.is_action_just_pressed("enter"):
 			await get_tree().process_frame 
 			return
