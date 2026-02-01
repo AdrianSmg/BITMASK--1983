@@ -1,7 +1,6 @@
 extends Node2D
 @onready var crt_rect: ColorRect = $ScreenContainer/ColorRect
 @onready var led_glow: Node2D = $ScreenContainer/GreenButtonGlow
-@onready var led_light: PointLight2D = $ScreenContainer/GreenButtonGlow/PointLight2D
 @onready var red_led: Sprite2D = $redled
 
 var text_scene = preload("res://Scenes/text.tscn")
@@ -140,9 +139,6 @@ func start_game():
 [ CONNECTION ESTABLISHED ]
 """, font, Color.GREEN_YELLOW, 7)	
 
-	disable_crt_shader()
-	set_led_red()
-
 	var d = show_dialogue_hold(Vector2(-470, -300), r"""[GLadUS] 
 	Welcome to Bunker ZASLON-4, Comrade Operator #744.
 
@@ -201,7 +197,7 @@ Press INTRO to continue
 	d = show_dialogue_hold(Vector2(-470, -300), r"""THE LOGIC IS SIMPLE:
 If (SIGNAL ** AND ** MASK) between your config and the rain config
 gives a result starting with 1111...
-...it is a Bomber. SHOOT IT DOWN.
+...it is a Bomber. SHOOT IT DOWN. (Press Y)
 
 If the result is anything else... let it pass. 
 Do not shoot the birds. Ammo is expensive.
@@ -257,7 +253,7 @@ The [ OR ] Mask forces bits to be 1. It does not erase, it overwrites.
 We will use it to INJECT the "General Clearance" header [ 1111 ] onto our spies.
 
 If (SIGNAL ** OR ** MASK) creates a valid clearance...
-...it is a Spy. GRANT ACCESS.
+...it is a Spy. GRANT ACCESS. (Press Y)
 
 If the signal does not end in [ 0011 ], do not mask it. 
 It is just garbage. Let it burn.
@@ -315,7 +311,7 @@ If (SIGNAL ** XOR ** MASK) results in absolute zero [ 00000000 ]...
 ...it is a Comrade. LET IT PASS.
 
 If the result shows even a single [ 1 ]...
-...it is an Impostor wearing our face. SHOOT IT DOWN.
+...it is an Impostor wearing our face. SHOOT IT DOWN. (Press Y)
 
 Press INTRO to BEGIN VERIFICATION
 """, font, Color.GREEN_YELLOW)
@@ -372,7 +368,7 @@ If (SIGNAL ** XOR ** 11111111) creates a result...
 
 DO NOT HESITATE.
 DO NOT READ THE PATTERNS.
-PURGE IT ALL.
+PURGE IT ALL. (Press Y)
 
 Press INTRO to BEGIN FINAL SEQUENCE
 """, font, Color.ORANGE_RED)
@@ -622,7 +618,14 @@ Goodbye, Comrade.
 	get_tree().quit()
 
 func end_screen():
-	pass
+	show_dialogue(Vector2(-490, -300), r""""                                                                
+					  Thank you for playing!   
+		
+                           BITMASK: 1983
+                       By AdianSmg and AsheN                                                                       
+""", font, Color.GREEN_YELLOW, 15)
+	
+	show_dialogue(Vector2(-75, 200), "Barcelona Global Game Jam - 01/02/2026", font, Color.BLUE, 15)
 	
 func disable_crt_shader() -> void:
 	crt_rect.visible = false
