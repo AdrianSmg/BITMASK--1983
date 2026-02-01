@@ -13,8 +13,8 @@ var game_over := false
 
 var arrayCorrect: Array[int] = []
 var onPuzzle = false
+var puzzle_bar: ProgressBar = null
 
-# Puzzle global vars:
 var puzzle_numbers: Array = []
 var puzzle_resolved_current := false
 var puzzle_index := 0
@@ -62,6 +62,8 @@ func _process(delta: float) -> void:
 			_resolve_puzzle(true)
 			return
 		puzzle_timer += delta
+		if is_instance_valid(puzzle_bar):
+			puzzle_bar.value = puzzle_timer
 		if puzzle_timer >= puzzle_time_limit:
 			_resolve_puzzle(false)
 
@@ -473,7 +475,8 @@ func puzzle(arrayNumbers: Array, timePerNum: float) -> void:
 	puzzle_time_limit = timePerNum
 	puzzle_active = true
 	onPuzzle = true
-
+	
+	_setup_puzzle_bar()
 	_show_current_number()
 
 func _show_current_number() -> void:
@@ -482,6 +485,9 @@ func _show_current_number() -> void:
 		puzzle_active = false
 		onPuzzle = false
 
+		if is_instance_valid(puzzle_bar):
+			puzzle_bar.queue_free()
+			puzzle_bar = null
 		if is_instance_valid(puzzle_bubble):
 			puzzle_bubble.kill_instance()
 		return
@@ -498,6 +504,10 @@ func _show_current_number() -> void:
 
 	puzzle_timer = 0.0
 	puzzle_resolved_current = false
+	
+	if is_instance_valid(puzzle_bar):
+		puzzle_bar.max_value = puzzle_time_limit
+		puzzle_bar.value = 0.0
 
 func _resolve_puzzle(pressed_intro: bool) -> void:
 	
@@ -527,9 +537,46 @@ func clear_all_text_bubbles() -> void:
 			b.queue_free()
 
 	puzzle_bubble = null
+	
+func _setup_puzzle_bar() -> void:
+	if is_instance_valid(puzzle_bar):
+		puzzle_bar.queue_free()
+
+	puzzle_bar = ProgressBar.new()
+	add_child(puzzle_bar)
+
+	puzzle_bar.min_value = 0.0
+	puzzle_bar.max_value = puzzle_time_limit
+	puzzle_bar.value = 0.0
+	puzzle_bar.position = Vector2(-250, 140)
+	puzzle_bar.size = Vector2(500, 18)
+	puzzle_bar.show_percentage = false
+
+	var bg := StyleBoxFlat.new()
+	bg.bg_color = Color(0, 0, 0, 0.85)
+	bg.set_border_width_all(2)
+	bg.border_color = Color.GREEN_YELLOW
+	bg.corner_radius_top_left = 2
+	bg.corner_radius_top_right = 2
+	bg.corner_radius_bottom_left = 2
+	bg.corner_radius_bottom_right = 2
+
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = Color.GREEN_YELLOW
+	fill.corner_radius_top_left = 2
+	fill.corner_radius_top_right = 2
+	fill.corner_radius_bottom_left = 2
+	fill.corner_radius_bottom_right = 2
+
+	puzzle_bar.add_theme_stylebox_override("background", bg)
+	puzzle_bar.add_theme_stylebox_override("fill", fill)
+	puzzle_bar.add_theme_constant_override("fill_offset", 1)
 
 func defeat_screen():
 	clear_all_text_bubbles()
+	if is_instance_valid(puzzle_bar):
+		puzzle_bar.queue_free()
+		puzzle_bar = null
 	var title = show_dialogue_speed(
 	Vector2(-470, -300),
 	r"""░▒▓█▓▒░▒▓████▓▒░░▒▓█▓▒░▒▓██▓▒░░▒▓█▓▒░▒▓█▓▒░
@@ -579,6 +626,9 @@ func fail_puzzle():
 	puzzle_active = false
 	onPuzzle = false
 	defeat_screen()
+	if is_instance_valid(puzzle_bar):
+		puzzle_bar.queue_free()
+		puzzle_bar = null
 	
 func wait_for_input():
 	while true:
