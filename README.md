@@ -1,7 +1,7 @@
 # BITMASK: 1983
 
 <p align="center">
-  <img src="Resources/banner.png" width="300"/>
+  <img src="Resources/banner.png" width="500"/>
 </p>
 
 The Cold War has gone silent, but the data has never been louder. As a Level 4 Telemetry Officer for the Soviet Union, you are the last line of defense against the American digital offensive. But the enemy does not attack with open declarations; they attack with noise, hidden signals, and phantom coordinates buried in static.
