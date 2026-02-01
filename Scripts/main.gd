@@ -5,15 +5,18 @@ var font = preload("res://Fonts/osc_mono.ttf")
 var input = preload("res://Scenes/input.tscn")
 
 var inputBar = input.instantiate()
-var objArray = [null, null, null, null, null]
+var objArray: Array = []
 var arrIndex = 0
 
 var game_started = false
+var game_over := false
 
-var arrayCorrect = []
+var arrayCorrect: Array[int] = []
 var onPuzzle = false
 
 # Puzzle global vars:
+var puzzle_numbers: Array = []
+var puzzle_resolved_current := false
 var puzzle_index := 0
 var puzzle_active := false
 var puzzle_timer := 0.0
@@ -49,18 +52,22 @@ $$$$$$$  |$$$$$$\    $$ |   $$ | \_/ $$ |$$ |  $$ |\$$$$$$  |$$ | \$$\
 	show_dialogue_speed(Vector2(-200, 75), "Type in password to start:", font, Color.GREEN_YELLOW, 200)
 
 	
-func _process(delta : float) -> void:
+func _process(delta: float) -> void:
 	if (inputBar.psw() and not game_started):
 		game_started = true
 		start_game()
-	if puzzle_active:
-		puzzle_timer += delta
-		if puzzle_timer > puzzle_time_limit:
-			defeat_screen()
 
+	if puzzle_active:
+		if Input.is_action_just_pressed("yes"):
+			_resolve_puzzle(true)
+			return
+		puzzle_timer += delta
+		if puzzle_timer >= puzzle_time_limit:
+			_resolve_puzzle(false)
 
 func show_dialogue(pos, text, _font, _color, time):
 	var bubble = text_scene.instantiate()
+	bubble.add_to_group("bubbles")
 
 	add_child(bubble)
 
@@ -76,8 +83,9 @@ func show_dialogue(pos, text, _font, _color, time):
 
 func show_dialogue_speed(pos, text, _font, _color, speed):
 	var bubble = text_scene.instantiate()
+	bubble.add_to_group("bubbles")
 	
-	objArray[arrIndex] = bubble
+	objArray.append(bubble)
 	arrIndex += 1
 	
 	add_child(bubble)
@@ -91,6 +99,7 @@ func show_dialogue_speed(pos, text, _font, _color, speed):
 
 func show_dialogue_hold(pos, text, _font, _color):
 	var bubble = text_scene.instantiate()
+	bubble.add_to_group("bubbles")
 	add_child(bubble)
 
 	bubble.position = pos
@@ -122,7 +131,7 @@ func start_game():
 ...              
 
 [ CONNECTION ESTABLISHED ]
-""", font, Color.GREEN_YELLOW, 9)	
+""", font, Color.GREEN_YELLOW, 7)	
 
 	var d = show_dialogue_hold(Vector2(-470, -300), r"""[GLadUS] 
 	Welcome to Bunker ZASLON-4, Comrade Operator #744.
@@ -136,6 +145,8 @@ Your mission is simple:
 The Americans are flooding our frequencies with noise, propaganda, 
 and jazz music. Your terminal is the only filter between their lies 
 and the Motherland.
+
+Press INTRO to continue
 """, font, Color.RED)
 
 	await wait_for_input()
@@ -172,7 +183,7 @@ We need to filter the rain from the rockets.
 > THE ENEMY:     Any signal starting with [ 1111 ].
 
 Press INTRO to continue
-""", font, Color.GREEN)
+""", font, Color.GREEN_YELLOW)
 
 	await wait_for_input()
 	d.kill_instance()
@@ -186,12 +197,15 @@ If the result is anything else... let it pass.
 Do not shoot the birds. Ammo is expensive.
 
 Press INTRO to START
-""", font, Color.GREEN)
+""", font, Color.GREEN_YELLOW)
 
 	await wait_for_input()
 	d.kill_instance()
 
 	puzzle_day_1()
+	await wait_for_puzzle_end()
+	if game_over:
+		return
 	
 	await show_dialogue(Vector2(-470, -300), r""":: DAY 01 REPORT ::
 STATUS: SUCCESSFUL.
@@ -205,7 +219,7 @@ Go to your bunk. Sleep fast.
 Tomorrow we stop defending... and start infiltrating.
 
 > SYSTEM SHUTDOWN...
-""", font, Color.GREEN, 9)	
+""", font, Color.GREEN_YELLOW, 9)	
 	
 	d = show_dialogue_hold(Vector2(-470, -300), r"""==========================================
 DAY: 02   |   OCTOBER 25, 1983
@@ -223,7 +237,7 @@ We must give them a fake clearance badge so they can pass safely.
 > THE ALLY:    Any signal ending with [ 0011 ].
 
 Press INTRO to continue
-""", font, Color.GREEN)
+""", font, Color.GREEN_YELLOW)
 
 	await wait_for_input()
 	d.kill_instance()
@@ -239,12 +253,15 @@ If the signal does not end in [ 0011 ], do not mask it.
 It is just garbage. Let it burn.
 
 Press INTRO to BEGIN INFILTRATION.
-""", font, Color.GREEN)
+""", font, Color.GREEN_YELLOW)
 
 	await wait_for_input()
 	d.kill_instance()
 	
 	puzzle_day_2()
+	await wait_for_puzzle_end()
+	if game_over:
+		return
 	
 	await show_dialogue(Vector2(-470, -300), r""":: DAY 02 REPORT ::
 STATUS: SUCCESSFUL.
@@ -254,7 +271,7 @@ They are wearing the masks you gave them.
 Rest now, Operator.
 
 > SYSTEM SHUTDOWN...
-""", font, Color.GREEN, 5)	
+""", font, Color.GREEN_YELLOW, 5)	
 	
 	d = show_dialogue_hold(Vector2(-470, -300), r"""==========================================
 DAY: 03   |   OCTOBER 26, 1983
@@ -273,7 +290,7 @@ We must compare every signal against the Official Truth.
 > THE ENEMY:     Any signal that is NOT a perfect match.
 
 Press INTRO to continue
-""", font, Color.GREEN)
+""", font, Color.GREEN_YELLOW)
 
 	await wait_for_input()
 	d.kill_instance()
@@ -288,12 +305,15 @@ If the result shows even a single [ 1 ]...
 ...it is an Impostor wearing our face. SHOOT IT DOWN.
 
 Press INTRO to BEGIN VERIFICATION
-""", font, Color.GREEN)
+""", font, Color.GREEN_YELLOW)
 
 	await wait_for_input()
 	d.kill_instance()
 	
 	puzzle_day_3()
+	await wait_for_puzzle_end()
+	if game_over:
+		return
 	
 	await show_dialogue(Vector2(-470, -300), r""":: DAY 03 REPORT ::
 STATUS: SUCCESSFUL.
@@ -304,7 +324,7 @@ If you had hesitated for a microsecond, ZASLON-4 would be a crater.
 Check your equipment. Tomorrow, the signal changes frequency.
 
 > SYSTEM SHUTDOWN...
-""", font, Color.GREEN, 6)	
+""", font, Color.GREEN_YELLOW, 6)	
 	
 	d = show_dialogue_hold(Vector2(-470, -300), r"""==========================================
 DAY: 04   |   OCTOBER 27, 1983
@@ -348,6 +368,9 @@ Press INTRO to BEGIN FINAL SEQUENCE
 	d.kill_instance()
 	
 	puzzle_day_4()
+	await wait_for_puzzle_end()
+	if game_over:
+		return
 	
 	await show_dialogue(Vector2(-470, -300), r""":: SYSTEM REPORT ::
 STATUS: ...SILENCE.
@@ -370,7 +393,7 @@ Or did we just turn off the lights?
 
 THANKS FOR PLAYING.
 BITMASK: 1983
-""", font, Color.ORANGE_RED, 15)	
+""", font, Color.SKY_BLUE, 15)	
 	
 	end_screen()
 	return
@@ -380,27 +403,70 @@ func puzzle_day_1():
 	
 	puzzle([ "00001101",
 			"00110101",
-			"11110001",
-			"11111111", 
+			"11110001", # TARGET
+			"11111111", # TARGET
 			"01010101",
 			"10110000",
-			"11110000", 
+			"11110000", # TARGET
 			"11110100",
 			"00000000",
 			"11101111",
-			], 10)
+			], 3)
 	
 func puzzle_day_2():
-	pass
+	arrayCorrect = [0,1,0,1,0,1,0,1,0,1]
 	
+	puzzle([
+		"00000101",
+		"00000011", # TARGET
+		"00100000",
+		"01010011", # TARGET
+		"11110000",
+		"00000011", # TARGET
+		"00001111",
+		"10000011", # TARGET
+		"01100110",
+		"00110011", # TARGET
+	], 3)
+
+
 func puzzle_day_3():
-	pass
+
+	arrayCorrect = [0,1,1,0,1,0,1,1,1,0]
 	
+	puzzle([
+		"10101010",
+		"10101011", # TARGET
+		"11101010", # TARGET
+		"10101010",
+		"00101010", # TARGET
+		"10101010",
+		"11111111", # TARGET
+		"10101000", # TARGET
+		"00000000", # TARGET
+		"10101010",
+	], 3)
+
+
 func puzzle_day_4():
-	pass
+
+	arrayCorrect = [1,1,1,1,1,1,1,1,1]
+	
+	puzzle([
+		"11111111", # TARGET
+		"00000000", # TARGET
+		"10101010", # TARGET
+		"01010101", # TARGET
+		"11001100", # TARGET
+		"00110011", # TARGET
+		"11110000", # TARGET
+		"00001111", # TARGET
+		"01100110", # TARGET
+	], 3)
+
 	
 
-func puzzle(arrayNumbers, timePerNum):
+func puzzle(arrayNumbers: Array, timePerNum: float) -> void:
 	puzzle_numbers = arrayNumbers
 	puzzle_index = 0
 	puzzle_timer = 0.0
@@ -410,45 +476,87 @@ func puzzle(arrayNumbers, timePerNum):
 
 	_show_current_number()
 
-var puzzle_numbers = []
+func _show_current_number() -> void:
 
-func _show_current_number():
 	if puzzle_index >= puzzle_numbers.size():
 		puzzle_active = false
 		onPuzzle = false
+
+		if is_instance_valid(puzzle_bubble):
+			puzzle_bubble.kill_instance()
 		return
 
-	# Kill previous bubble if it still exists
 	if is_instance_valid(puzzle_bubble):
 		puzzle_bubble.kill_instance()
 
-	var puzzle_font = preload("res://Fonts/puzzle.ttf")
-	puzzle_bubble = text_scene.instantiate()
-
-	add_child(puzzle_bubble)
-	puzzle_bubble.position = Vector2(-50, -50)
-	puzzle_bubble.set_text(str(puzzle_numbers[puzzle_index]))
-	puzzle_bubble.set_text_color(Color.GREEN_YELLOW)
-	puzzle_bubble.set_font(puzzle_font)
-	puzzle_bubble.start_typing()
+	puzzle_bubble = show_dialogue_hold(
+		Vector2(-50, -50),
+		str(puzzle_numbers[puzzle_index]),
+		font,
+		Color.GREEN_YELLOW
+	)
 
 	puzzle_timer = 0.0
+	puzzle_resolved_current = false
 
+func _resolve_puzzle(pressed_intro: bool) -> void:
+	
+	if puzzle_resolved_current:
+		return
+	puzzle_resolved_current = true
 
+	var player_value: int = 1 if pressed_intro else 0
+	var expected_value: int = arrayCorrect[puzzle_index]
+
+	if player_value != expected_value:
+		fail_puzzle()
+		return
+
+	puzzle_index += 1
+	_show_current_number()
+	
+func wait_for_puzzle_end() -> void:
+	while puzzle_active:
+		await get_tree().process_frame
+		
+func clear_all_text_bubbles() -> void:
+	for b in get_tree().get_nodes_in_group("bubbles"):
+		if is_instance_valid(b) and b.has_method("kill_instance"):
+			b.kill_instance()
+		elif is_instance_valid(b):
+			b.queue_free()
+
+	puzzle_bubble = null
 
 func defeat_screen():
-	var title = show_dialogue_speed(Vector2(-350, -350), r"""░▒▓████████▓▒░▒▓██████▓▒░░▒▓█▓▒░▒▓█▓▒░        
-░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░        
-░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░        
-░▒▓██████▓▒░░▒▓████████▓▒░▒▓█▓▒░▒▓█▓▒░        
-░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░        
-░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░        
-░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓████████▓▒░ 
-																					""", 
-					font, Color.RED, 250)
+	clear_all_text_bubbles()
+	var title = show_dialogue_speed(
+	Vector2(-470, -300),
+	r"""░▒▓█▓▒░▒▓████▓▒░░▒▓█▓▒░▒▓██▓▒░░▒▓█▓▒░▒▓█▓▒░
+▒▓██▓▒░░▒▓█▓▒░▒▓▒░▒▓▒░░▒▓█▓▒░▒▓██▓▒░░▒▓▒░▒▓
+░▒▓▒░▒▓█▓▒░░▒▓▒░▒▓██▓▒░░▒▓▒░▒▓█▓▒░▒▓██▓▒░░▒
+▒▓█▓▒░▒▓▒░▒▓██▓▒░░▒▓▒░▒▓█▓▒░▒▓▒░▒▓█▓▒░▒▓██▓
+░▒▓██▓▒░░▒▓▒░▒▓█▓▒░▒▓██▓▒░░▒▓▒░▒▓██▓▒░▒▓▒░▒
+▒▓▒░▒▓█▓▒░▒▓██▓▒░░▒▓▒░▒▓█▓▒░▒▓▒░▒▓█▓▒░▒▓██▓
+░▒▓█▓▒░▒▓▒░▒▓█▓▒░▒▓██▓▒░░▒▓█▓▒░▒▓▒░▒▓█▓▒░▒▓
+""",
+	font,
+	Color.RED,
+	250
+)
 	
-	var subtitle = show_dialogue_hold(Vector2(-150, -100), "You have doomed us all...", font, Color.RED)
-	var exit = show_dialogue_hold(Vector2(-160,-50), "ACCEPT YOUR FATE? [Y/Y] ", font, Color.GREEN_YELLOW)
+	var subtitle = show_dialogue_hold(Vector2(-470, -40), r""":: CRITICAL FAILURE ::
+STATUS: COMPROMISED.
+
+You failed to maintain the Mask, Operator.
+The signal has breached the firewall.
+
+Your file has been marked: [ INCOMPETENT ].
+Operator #735 has been summoned to replace you.
+
+Goodbye, Comrade.
+""", font, Color.RED)
+	var exit = show_dialogue_hold(Vector2(-160,180), "ACCEPT YOUR FATE? [Y/Y] ", font, Color.ORANGE_RED)
 	
 	await wait_for_input()
 	get_tree().quit()
@@ -464,20 +572,10 @@ func correct_screen():
 										⠀⠹⢿⣿⣿⣿⡿⠟⠀""", font, Color.GREEN, 2)
 	
 func _on_input_mgr_input_sent(key: Variant) -> void:
-	if not puzzle_active:
-		return
-	
-	print(key)
-	
-	if key == arrayCorrect[puzzle_index]:
-		puzzle_index += 1
-		puzzle_timer = 0.0
-		_show_current_number()
-		correct_screen()
-	else:
-		fail_puzzle()
+	return
 
 func fail_puzzle():
+	game_over = true
 	puzzle_active = false
 	onPuzzle = false
 	defeat_screen()
