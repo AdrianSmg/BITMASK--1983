@@ -1,4 +1,8 @@
 extends Node2D
+@onready var crt_rect: ColorRect = $ScreenContainer/ColorRect
+@onready var led_glow: Node2D = $ScreenContainer/GreenButtonGlow
+@onready var led_light: PointLight2D = $ScreenContainer/GreenButtonGlow/PointLight2D
+@onready var red_led: Sprite2D = $redled
 
 var text_scene = preload("res://Scenes/text.tscn")
 var font = preload("res://Fonts/osc_mono.ttf")
@@ -25,6 +29,7 @@ var puzzle_bubble = null
 
 
 func _ready() -> void:
+	red_led.visible = false
 	var pos = Vector2(-480, -360)
 
 	add_child(inputBar)
@@ -134,6 +139,9 @@ func start_game():
 
 [ CONNECTION ESTABLISHED ]
 """, font, Color.GREEN_YELLOW, 7)	
+
+	disable_crt_shader()
+	set_led_red()
 
 	var d = show_dialogue_hold(Vector2(-470, -300), r"""[GLadUS] 
 	Welcome to Bunker ZASLON-4, Comrade Operator #744.
@@ -279,11 +287,13 @@ Rest now, Operator.
 DAY: 03   |   OCTOBER 26, 1983
 ==========================================
 
-The enemy has realized we are filtering their planes and masking our spies.
+The enemy has realized we are filtering their planes and masking 
+our spies.
 So they have changed tactics. They are now using OUR codes.
 
 They are mimicking our "Friendly ID" signature to bypass the defenses. 
-Visually, they look like us. But digitally, there are flaws in their disguise.
+Visually, they look like us. But digitally, there are flaws in their 
+disguise.
 
 We must compare every signal against the Official Truth.
 
@@ -298,7 +308,8 @@ Press INTRO to continue
 	d.kill_instance()
 	
 	d = show_dialogue_hold(Vector2(-470, -300), r"""The [ XOR ] Mask is the Difference Detector.
-It will show a [ 1 ] only where the signal lies (where it differs from the Config).
+It will show a [ 1 ] only where the signal lies (where it differs
+ from the Config).
 
 If (SIGNAL ** XOR ** MASK) results in absolute zero [ 00000000 ]...
 ...it is a Comrade. LET IT PASS.
@@ -397,6 +408,8 @@ THANKS FOR PLAYING.
 BITMASK: 1983
 """, font, Color.SKY_BLUE, 15)	
 	
+	disable_crt_shader()
+	set_led_red()
 	end_screen()
 	return
 
@@ -610,13 +623,12 @@ Goodbye, Comrade.
 
 func end_screen():
 	pass
+	
+func disable_crt_shader() -> void:
+	crt_rect.visible = false
 
-func correct_screen():
-	show_dialogue(Vector2(-50, -200), r"""⣰⣾⣿⣿⣿⣷⣦⠀
-										⣾⣿⣿⣿⣿⣿⢟⣿⣧
-										⣿⣿⡻⣿⡟⣡⣿⣿⣿
-										⢻⣿⣿⣦⣾⣿⣿⣿⡟
-										⠀⠹⢿⣿⣿⣿⡿⠟⠀""", font, Color.GREEN, 2)
+func set_led_red() -> void:
+	red_led.visible = true
 	
 func _on_input_mgr_input_sent(key: Variant) -> void:
 	return
